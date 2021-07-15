@@ -1,0 +1,9 @@
+export const REGISTER = "REGISTER";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const USER_LOADED = "USER_LOADED";
+export const EDIT_SUCCESS = "EDIT_SUCCESS";
+export const EDIT_FAIL = "EDIT_FAIL";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";
+export const FAVORITE_MOVIE = "FAVORITE_MOVIE";
+export const DELETE_MOVIE = "DELETE_MOVIE";
