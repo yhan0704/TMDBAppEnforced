@@ -21,7 +21,8 @@ const connectDB = async () => {
 
 connectDB();
 
-app.use(cors({ origin: true }));
+app.use(cors());
+cors({ credentials: true, origin: true });
 
 app.use(express.json());
 

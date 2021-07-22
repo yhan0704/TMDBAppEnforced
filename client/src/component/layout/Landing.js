@@ -14,6 +14,7 @@ function Landing() {
   const API = process.env.REACT_APP_API_KEY;
   useEffect(() => {
     //remove prev movies(used for when search is true or false)
+
     setMovies([]);
     let movie = ``;
     if (search === "") {
@@ -22,11 +23,12 @@ function Landing() {
       movie += `https://api.themoviedb.org/3/search/movie?api_key=${API}&language=en_US&page=${number}&query=${search}`;
     }
     fetchdata(movie);
-    window.scrollTo(0, 0);
-  }, [number, search]);
 
-  const fetchdata = async (endpOint) => {
-    fetch(endpOint)
+    window.scrollTo(0, 0);
+  }, [API, number, search]);
+
+  const fetchdata = async (endPoint) => {
+    fetch(endPoint)
       .then((res) => res.json())
       .then((results) => {
         setTotalPage(results.total_pages);
@@ -34,17 +36,24 @@ function Landing() {
         setNumber(results.page);
         setLoading(false);
       });
+    // axios.get(endPoint).then((results) => {
+    //   setTotalPage(results.data.total_pages);
+    //   setMovies(results.data.results);
+    //   setNumber(results.data.page);
+    //   // console.log(results.data);
+    //   setLoading(false);
+    // });
   };
 
   return (
     <div>
       <div className="searchContainer">
-        <Search setSearch={setSearch} />
+        <Search setSearch={setSearch} movies={movies} />
         <Navigation />
       </div>
       <MovieComponent movies={movies} />
       {loading ? (
-        <div style={{ textAlign: "center" }}>"..loading"</div>
+        <div style={{ textAlign: "center" }}>"Loading..."</div>
       ) : (
         <Paging setNumber={setNumber} totalPage={totalPage} />
       )}

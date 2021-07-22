@@ -23,6 +23,7 @@ function DetailPage(props) {
   `;
 
   const [movie, setMovie] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const apiImageAddress = "http://image.tmdb.org/t/p/";
   const movieId = props.match.params.id;
@@ -34,6 +35,7 @@ function DetailPage(props) {
       .then((response) => response.json())
       .then((results) => {
         setMovie(results);
+        setLoading(false);
       });
   }, [movieId]);
   const { original_title, poster_path } = movie;
@@ -56,37 +58,45 @@ function DetailPage(props) {
   return (
     <Wrap>
       <section className="midContainer">
-        <div className="detailLeft">
-          <img
-            src={
-              movie.poster_path && `${apiImageAddress}w300${movie.poster_path}`
-            }
-            alt="movie_picture"
-          />
-          <p className="voteAverage">{movie.vote_average}</p>
-        </div>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            <div className="detailLeft">
+              <img
+                src={
+                  movie.poster_path &&
+                  `${apiImageAddress}w300${movie.poster_path}`
+                }
+                alt="movie_picture"
+              />
+              <p className="voteAverage">{movie.vote_average}</p>
+            </div>
 
-        <div className="detailRight">
-          <h1>
-            {movie.original_title} ({movie.status})
-          </h1>
-          <button
-            className="btn btn-danger"
-            style={{ width: "100px" }}
-            onClick={handleOnclick}
-          >
-            save
-          </button>
-          <p>Release_Date:{movie.release_date}</p>
-          <p>
-            Genres:{` `}
-            {movie.genres && movie.genres.map((genre) => genre.name).join(", ")}
-          </p>
-          <p>
-            Overview: <br />
-            {movie.overview}
-          </p>
-        </div>
+            <div className="detailRight">
+              <h1>
+                {movie.original_title} ({movie.status})
+              </h1>
+              <button
+                className="btn btn-danger"
+                style={{ width: "100px" }}
+                onClick={handleOnclick}
+              >
+                save
+              </button>
+              <p>Release_Date:{movie.release_date}</p>
+              <p>
+                Genres:{` `}
+                {movie.genres &&
+                  movie.genres.map((genre) => genre.name).join(", ")}
+              </p>
+              <p>
+                Overview: <br />
+                {movie.overview}
+              </p>
+            </div>
+          </>
+        )}
       </section>
     </Wrap>
   );
