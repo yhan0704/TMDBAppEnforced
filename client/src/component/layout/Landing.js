@@ -4,17 +4,24 @@ import Paging from "./Paging";
 import Search from "./Search";
 import { connect } from "react-redux";
 import Navigation from "./Navigation";
+import { useLocation } from "react-router-dom";
 
 function Landing() {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const [number, setNumber] = useState(1);
+  const location = useLocation();
+  const { number1 } = location.state || {};
+  const [number, setNumber] = useState(number1);
   const [totalPage, setTotalPage] = useState([]);
   const API = process.env.REACT_APP_API_KEY;
+
+  useEffect(() => {
+    setNumber("1");
+  }, [number1, location]);
+
   useEffect(() => {
     //remove prev movies(used for when search is true or false)
-
     setMovies([]);
     let movie = ``;
     if (search === "") {
@@ -23,7 +30,6 @@ function Landing() {
       movie += `https://api.themoviedb.org/3/search/movie?api_key=${API}&language=en_US&page=${number}&query=${search}`;
     }
     fetchdata(movie);
-
     window.scrollTo(0, 0);
   }, [API, number, search]);
 
@@ -55,7 +61,7 @@ function Landing() {
       {loading ? (
         <div style={{ textAlign: "center" }}>"Loading..."</div>
       ) : (
-        <Paging setNumber={setNumber} totalPage={totalPage} />
+        <Paging number={number} setNumber={setNumber} totalPage={totalPage} />
       )}
     </div>
   );

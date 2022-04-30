@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Navigation() {
   return (
     <div className="navBox">
-      <Link to="/">
+      <Link to={{ pathname: "/", state: { number1: 1 } }}>
         <li>Popular</li>
       </Link>
 
